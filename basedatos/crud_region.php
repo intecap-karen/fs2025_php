@@ -1,7 +1,7 @@
 <?php 
      //vamos a utilizar la conexión existente
         require_once("conexion.php");
-       
+    
     //se verifica que los datos vengan del formulario con el 
     //boton con nombre btn_modificar
     if(isset($_POST['btn_modificar'])){

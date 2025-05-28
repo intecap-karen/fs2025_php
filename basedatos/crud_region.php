@@ -1,53 +1,64 @@
-<?php
-
-    // vamos a utilizar la conexión existente 
-    require_once 'conexion.php';
-    if (isset($_POST['btn_eliminar'])) {
-        
-        // se recibe el código de la región a eliminar
-        $codigo = $_POST['hidden_codigo'];
-        
-        // consulta SQL para eliminar la región
-        $sql = "DELETE FROM regiones WHERE cod_region =". $codigo;
-        
-        // ejecutar el código en la base de datos
-        try {
-            $ejecutar = mysqli_query($conexion, $sql);
-            echo "<br>Datos eliminados correctamente.";
-            header("Location: vista_regiones.php");
-            exit;
-        } catch (Exception $th) {
-            echo "<br>Error al eliminar los datos: <br>" . $th;
-        }
-    }
-
-    if (isset($_POST['btn_insertar'])){
-        // vamos a utilizar la conexión existente 
-        require_once 'conexion.php';
-        
-        // variables para almacenar los datos del formulario
-        // se reciben los datos del formulario
+<?php 
+     //vamos a utilizar la conexión existente
+        require_once("conexion.php");
+       
+    //se verifica que los datos vengan del formulario con el 
+    //boton con nombre btn_modificar
+    if(isset($_POST['btn_modificar'])){
+        //recibir datos del formulario
         $codigo = $_POST['txt_codigo'];
         $nombre = $_POST['txt_nombre'];
         $desc = $_POST['txt_desc'];
-
-        echo "Datos de la región: <br>";
-        echo "Código: $codigo <br>";
-        echo "Nombre: $nombre <br>";
-        echo "Descripción: $desc";
-
-        //vamos a utilizar la concexión existente
-        require_once ("conexion.php");
-        $sql = "INSERT INTO regiones(cod_region,nombre,descripcion) VALUES (".$codigo.",'".$nombre."','".$desc."');";
-        //ejecutar el codigo en la base de datos
+        $sql = 'UPDATE regiones set nombre="'.$nombre.'", 
+                    descripcion="'.$desc.'" WHERE cod_region='.$codigo.';';
+        echo $sql;
         try {
             $ejecutar = mysqli_query($conexion, $sql);
-            //echo "Valor de Ejecutar: ". $ejecutar;
-            echo "<br>Datos insertados correctamente.";
-            header("Location: vista_regiones.php");
+            echo "Datos modificados";
+            //envia a la vista regiones
+            header('Location:vista_regiones.php');
             exit;
         } catch (Exception $th) {
-            echo "<br>Error al insertar los datos: <br>" . $th;
+            echo "<br>Datos no actualizados<br>". $th;    
         }
+    }
+     //proceso de eliminar
+    if(isset($_POST['btn_eliminar'])){
+        $codigo = $_POST['hidden_codigo'];
+        $sql = "delete from regiones where cod_region=".$codigo;
+        try {
+            $ejecutar = mysqli_query($conexion, $sql);
+            echo "<br>Datos eliminados";
+            header('Location: vista_regiones.php');
+            exit;
+        } catch (Exception $th) {
+            echo "<br>Datos no eliminados guardados<br>". $th;        
+        } 
+    }
+
+    //proceso de insertar
+    if(isset($_POST['btn_insertar'])){
+        //variable para cada dato que viene del formulario 
+        $codigo = $_POST['txt_codigo'];
+        $nombre = $_POST['txt_nombre'];
+        $desc = $_POST['txt_desc'];
+        echo "Datos de la región:";
+        echo "<br>Codigo: ". $codigo;
+        echo "<br>Nombre: ". $nombre;
+        echo "<br>Descripción: ". $desc;
+       
+        $sql="insert into regiones(cod_region,nombre,descripcion) 
+            values(".$codigo.",'".$nombre."','".$desc."');";
+        //ejecutar el sql en la conexión existente
+        try {
+            $ejecutar = mysqli_query($conexion, $sql);
+            //echo "valor de Ejecutar: ". $ejecutar;
+            echo "<br>Datos almacenados";
+            header('Location: vista_regiones.php');
+            exit;
+        } catch (Exception $th) {
+            echo "<br>Datos no fueron guardados<br>". $th;        
+        } 
+
     }
 ?>

@@ -7,8 +7,9 @@
 </head>
 <body>
     <h1>Menu Principal</h1>
+    <h2>Regiones</h2>
     <a href="basedatos/vista_regiones.php">Regiones</a>
     <br>
-    <a href="basedatos/form_regiones_agregar.php">Formulario para Agregar Regiones</a>
+    <a href="basedatos/vista_regiones_card.php">Regiones - formato card</a>
 </body>
 </html>
